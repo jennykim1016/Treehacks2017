@@ -1,4 +1,4 @@
-var messengerPageToken = process.env.MESSENGER_TOKEN || 'EAAZAol337ENgBAFaNP0nhGooerwwjzMKyvZAkm19S4RAZBgDKkAcARVofjeKbnBPSYVwIPgsBJAC4jUcBda3V3sLyZBFShyNA7hhwIyOsjue2xHEeETg6Nd5zUVADPLr1WepW0Equmm60zUb1Ah8WlyxR1BkfyGR4V1uPgTwtwZDZD';
+var messengerPageToken = process.env.MESSENGER_TOKEN || 'EAAZAVzZCLlyv4BAKlduGlbJJKLS1CsDZCgzRxBdSQQlarvL1uN2sBXDBCZBZBBhOTBRAfy5IfFfUnKpN8PFtZAZAAExFRw36s8b9oatqteuuE9tN2lMQQ5f1GVLfwrKzJXdGrZB9JhMMYBVQF4SZCa7mAaAytvogznDJpYkovYK5UrgZDZD';
 
 module.exports = {
   messengerPageToken: messengerPageToken,
