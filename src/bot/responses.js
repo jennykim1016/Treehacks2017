@@ -1,5 +1,5 @@
 export default {
-  'Hello': 'Hey!',
-  "What's your name?": 'BOT NAME',
-  "Are you a robot?": "no."
+  'Hello': 'HEY!',
+  "What's your name?": 'JENNY',
+  "Are you a robot?": "NO."
 }

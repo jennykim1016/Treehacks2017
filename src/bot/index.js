@@ -77,8 +77,8 @@ const getResponsesForMessage = ({message, userKey}) => {
         }).catch(() => {
           resolve([defaultResponses.failure])
         })
-    } else if(message.text === 'ben') {
-            resolve([defaultResponses.greetingMessage]);
+    } else if(responses.hasOwnProperty(message.text)) {
+      resolve([responses[message.text]]);
     } else {
       resolve([defaultResponses.invalidMessage]);
     }
