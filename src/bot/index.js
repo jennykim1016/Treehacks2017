@@ -35,6 +35,7 @@ const defaultResponses = {
 }
 
 export const handleMessage = ({message, userKey}) => {
+//    console.log('in handlemessage');
   return getResponsesForMessage({message, userKey})
   .then(messages => {
     return generateMessagesFromArray(messages, userKey);
@@ -72,19 +73,14 @@ const getResponsesForMessage = ({message, userKey}) => {
     } else if(message.text === 'random') {
       wiki.getRandomWikiArticleLink()
         .then(link => {
-          resolve([responses.hereYouGo, link]);
+          resolve([defaultResponses.hereYouGo, link]);
         }).catch(() => {
-          resolve([responses.failure])
+          resolve([defaultResponses.failure])
         })
-    } else {
-      resolve([responses.invalidMessage]);
-    }  
-/*    } else if(message.text === 'random') {
-      // add something cool
-    } else if(responses.hasOwnProperty(message.text)) {
-      // add something cooler
+    } else if(message.text === 'ben') {
+            resolve([defaultResponses.greetingMessage]);
     } else {
       resolve([defaultResponses.invalidMessage]);
-    }*/
+    }
   });
 };

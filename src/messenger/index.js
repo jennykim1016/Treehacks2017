@@ -40,6 +40,7 @@ export let handleMessages = (req, res) => {
 let handleMessageEvent = (event) => {
   let sender = event.sender.id.toString();
   let message = parseMessageObj(event);
+    console.log(message);
 
   return bot.handleMessage({
     message,
@@ -48,7 +49,7 @@ let handleMessageEvent = (event) => {
     console.log('Responding: ')
     console.log(responses);
     if(_.has(responses, '0')) {
-      responses.forEach(response => {
+        responses.forEach(response => {
         if(response.text) {
           return sendMessage({
             text: response.text
@@ -69,6 +70,8 @@ let handleMessageEvent = (event) => {
         }
       });
     }
+  }).catch(function () {
+      console.log("Promise Rejected");
   });
 };
 
