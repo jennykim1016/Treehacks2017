@@ -25,6 +25,8 @@ const defaultResponses = {
   invalidMessage: "Sorry, didn't understand that!",
   failure: "Sorry, something went wrong!",
   hereYouGo: "Here's a cool article",
+  receivedGratitude: "Have a great day!",
+  gratitude: "Here's a past piece of gratitude!",
   locationInstruction: {
     text: 'Please share your location.',
     quick_replies: [
@@ -81,14 +83,15 @@ const getResponsesForMessage = ({message, userKey}) => {
     } else if (message.text === 'see gratitude') {
         firebase.returnEntry()
         .then(text => {
-            resolve([text]);
+            console.log("In bot/index.js" + text);
+            resolve([defaultResponses.gratitude, text]);
         }).catch(() => {
             resolve([defaultResponses.failure])
         })
     } else {
         firebase.addToDb(message.text)
         .then(() => {
-            resolve(["Added to database!"]);
+            resolve(defaultResponses.receivedGratitude);
         }).catch(() => {
             resolve([defaultResponses.failure])
         })
