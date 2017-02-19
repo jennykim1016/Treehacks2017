@@ -1,7 +1,9 @@
-# Chatbot Hackpack Tutorial
+# ListenerBot
 
 ### Overview
-We're going to build a chatbot with Node.js that integrates with Facebook Messenger.
+This is a listenerbot that integrates with Facebook Messenger.
+
+[here explanation needed]
 
 ### What is a chatbot?
 A chatbot is an application that users can interact with via 'conversational UI'. In other words, instead of interacting with an app on your phone, you chat with an app. This new medium of interaction with 'apps' works very well for a lot of situations and doesn't make sense for others. You can check out some chatbots like [Poncho]() or []() for examples. You can just message these like you would message anyone on Messenger.
@@ -52,7 +54,6 @@ Cool! Now Messenger knows your app exists, kind of!
 
 ### Testing it out
 Before building out the real functionality of your app, we've included a 'hello world' of sorts so you can test if you set up your Messenger app correctly.
-
 Steps:
 
 1. Install ngrok if you haven't already.
