@@ -69,18 +69,39 @@ const buildMessage = (message, key) => {
 const getResponsesForMessage = ({message, userKey}) => {
   return new Promise((resolve, reject) => {
     if(message.text === 'hi') {
+        console.log("HERE FRIEND");
       resolve([defaultResponses.greetingMessage, defaultResponses.instructions]);
     } else if(message.text === 'random') {
+        console.log("HERE FRIEND");
       wiki.getRandomWikiArticleLink()
         .then(link => {
           resolve([defaultResponses.hereYouGo, link]);
         }).catch(() => {
           resolve([defaultResponses.failure])
         })
-    } else if(responses.hasOwnProperty(message.text)) {
-      resolve([responses[message.text]]);
     } else {
-      resolve([defaultResponses.invalidMessage]);
-    }
+        console.log("HERE FRIEND");
+        
+        var found = false;
+        var stringReturn = "";
+        var minDistance = 1000000;
+        var levenshtein = require('fast-levenshtein');
+        var initDistance = 0;
+        
+        for (var i = 0; i < responses.length; i++) {
+            var distance = levenshtein.get(message.text, ""+responses[i][0], { useCollator: true});
+            if(minDistance > distance){
+                found=true;
+                stringReturn = responses[i][1];
+                minDistance = distance;
+            }
+        }
+
+        if (!found) {
+            resolve([defaultResponses.invalidMessage]);
+        }
+        
+        resolve([stringReturn]);
+    } 
   });
 };
