@@ -3,6 +3,7 @@
  */
 import * as wiki from './wiki';
 import responses from './responses';
+import * as firebase from '../firebase/firebase';
 
 const defaultResponses = {
   // these are just some various responses you might want to send
@@ -24,6 +25,8 @@ const defaultResponses = {
   invalidMessage: "Sorry, didn't understand that!",
   failure: "Sorry, something went wrong!",
   hereYouGo: "Here's a cool article",
+  receivedGratitude: "Have a great day!",
+  gratitude: "Here's a past piece of gratitude!",
   locationInstruction: {
     text: 'Please share your location.',
     quick_replies: [
@@ -77,6 +80,14 @@ const getResponsesForMessage = ({message, userKey}) => {
         }).catch(() => {
           resolve([defaultResponses.failure])
         })
+    } else if (message.text === 'good memory') {
+        firebase.returnEntry()
+        .then(text => {
+            console.log("In bot/index.js" + text);
+            resolve([defaultResponses.gratitude, text]);
+        }).catch(() => {
+            resolve([defaultResponses.failure])
+        })
     } else {
         
         var found = false;
@@ -89,7 +100,12 @@ const getResponsesForMessage = ({message, userKey}) => {
         emotional.load(function () {
             if(emotional.positive(message.text)){
                 positive=true;
-                // save into db
+                firebase.addToDb(message.text)
+                .then(() => {
+                    resolve(defaultResponses.receivedGratitude);
+                }).catch(() => {
+                    resolve([defaultResponses.failure])
+                })
                 console.log("SAVED INTO DB");
             }
             
@@ -106,12 +122,11 @@ const getResponsesForMessage = ({message, userKey}) => {
             resolve([defaultResponses.invalidMessage]);
         }
         if(positive){
-            resolve(["I realized that your message is super positive :) I will save into my database. You can type 'Good_Memory' to see one of the saved positive, previous messages. ", stringReturn]);
+            resolve(["I realized that your message is super positive :) I will save into my database. You can type 'good memory' to see one of the saved positive, previous messages. ", stringReturn]);
         } {
             resolve([stringReturn]);
         }
         });
-        
-    } 
+    }
   });
 };
