@@ -69,10 +69,8 @@ const buildMessage = (message, key) => {
 const getResponsesForMessage = ({message, userKey}) => {
   return new Promise((resolve, reject) => {
     if(message.text === 'hi') {
-        console.log("HERE FRIEND");
       resolve([defaultResponses.greetingMessage, defaultResponses.instructions]);
     } else if(message.text === 'random') {
-        console.log("HERE FRIEND");
       wiki.getRandomWikiArticleLink()
         .then(link => {
           resolve([defaultResponses.hereYouGo, link]);
@@ -80,14 +78,22 @@ const getResponsesForMessage = ({message, userKey}) => {
           resolve([defaultResponses.failure])
         })
     } else {
-        console.log("HERE FRIEND");
         
         var found = false;
+        var positive= false;
         var stringReturn = "";
         var minDistance = 1000000;
         var levenshtein = require('fast-levenshtein');
-        var initDistance = 0;
+        var emotional = require('emotional');
         
+        emotional.load(function () {
+            if(emotional.positive(message.text)){
+                positive=true;
+                // save into db
+                console.log("SAVED INTO DB");
+            }
+            
+            var initDistance = 0;
         for (var i = 0; i < responses.length; i++) {
             var distance = levenshtein.get(message.text, ""+responses[i][0], { useCollator: true});
             if(minDistance > distance){
@@ -96,12 +102,16 @@ const getResponsesForMessage = ({message, userKey}) => {
                 minDistance = distance;
             }
         }
-
         if (!found) {
             resolve([defaultResponses.invalidMessage]);
         }
+        if(positive){
+            resolve(["I realized that your message is super positive :) I will save into my database. You can type 'Good_Memory' to see one of the saved positive, previous messages. ", stringReturn]);
+        } {
+            resolve([stringReturn]);
+        }
+        });
         
-        resolve([stringReturn]);
     } 
   });
 };
