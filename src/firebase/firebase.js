@@ -14,7 +14,7 @@ export const addToDb = (message) => {
         var count = snapshot.val().count;
         addNewEntry(++count, message);
         console.log("Count " + count + " message " + message);
-    }).catch()
+    });
 };
 
 const addNewEntry = (c, message) => {
@@ -22,15 +22,25 @@ const addNewEntry = (c, message) => {
     firebase.database().ref("gratitude").child("entry" + c).set({
         text: message
     });
-    firebase.database().ref("gratitude").set({
+    firebase.database().ref("gratitude").update({
         count: c
     })
 };
 
-export const returnEntry = () => {    
-    var ref = firebase.database().ref("gratitude");
+export const returnEntry = () => {  
+    console.log("returnEntry");
+    var ref = firebase.database().ref("gratitude").child("count");
     ref.once("value").then(function(snapshot) {
-        var rand = Math.floor(Math.random() * snapshot.numChildren());
-        return snapshot.val()["entry" + rand];
+        console.log(snapshot.val());
+        var rand = Math.floor(Math.random() * snapshot.val());
+        return selectRandomEntry(rand);
+    });
+};
+
+const selectRandomEntry = (rand) => {  
+    console.log("selectRandomEntry");
+    var ref = firebase.database().ref("gratitude").child("entry" + rand);
+    ref.once("value").then(function(snapshot) {
+        return snapshot.val().text;
     });
 };

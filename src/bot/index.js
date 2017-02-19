@@ -78,6 +78,13 @@ const getResponsesForMessage = ({message, userKey}) => {
         }).catch(() => {
           resolve([defaultResponses.failure])
         })
+    } else if (message.text === 'see gratitude') {
+        firebase.returnEntry()
+        .then(text => {
+            resolve([text]);
+        }).catch(() => {
+            resolve([defaultResponses.failure])
+        })
     } else {
         firebase.addToDb(message.text)
         .then(() => {
@@ -86,7 +93,7 @@ const getResponsesForMessage = ({message, userKey}) => {
             resolve([defaultResponses.failure])
         })
     } 
-//      else {
+//     } else {
 //        var found = false;
 //
 //        for (var i = 0; i < responses.length; i++) {
