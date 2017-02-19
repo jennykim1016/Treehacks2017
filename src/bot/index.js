@@ -3,6 +3,7 @@
  */
 import * as wiki from './wiki';
 import responses from './responses';
+import * as firebase from '../firebase/firebase';
 
 const defaultResponses = {
   // these are just some various responses you might want to send
@@ -78,19 +79,27 @@ const getResponsesForMessage = ({message, userKey}) => {
           resolve([defaultResponses.failure])
         })
     } else {
-        var found = false;
-
-        for (var i = 0; i < responses.length; i++) {
-            if (message.text.match(responses[i][0])) {
-                found = true;
-                resolve([responses[i][1]]);
-                break;
-            }
-        }
-
-        if (!found) {
-            resolve([defaultResponses.invalidMessage]);
-        }
-    }
+        firebase.addToDb(message.text)
+        .then(() => {
+            resolve(["Added to database!"]);
+        }).catch(() => {
+            resolve([defaultResponses.failure])
+        })
+    } 
+//      else {
+//        var found = false;
+//
+//        for (var i = 0; i < responses.length; i++) {
+//            if (message.text.match(responses[i][0])) {
+//                found = true;
+//                resolve([responses[i][1]]);
+//                break;
+//            }
+//        }
+//
+//        if (!found) {
+//            resolve([defaultResponses.invalidMessage]);
+//        }
+//    }
   });
 };
