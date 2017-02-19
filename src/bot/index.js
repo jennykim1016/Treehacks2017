@@ -11,22 +11,22 @@ const defaultResponses = {
     type: 'template',
     payload: {
       template_type: 'button',
-      text: "Get a random article!",
+      text: "Remind yourself of a good memory.",
       buttons: [
         {
           type: 'postback',
           title: 'Press me!',
-          payload: 'random'
+          payload: 'good memory'
         },
       ]
     }
   },
-  greetingMessage: "Hello world!",
+  greetingMessage: "Hello there!",
   invalidMessage: "Sorry, didn't understand that!",
   failure: "Sorry, something went wrong!",
   hereYouGo: "Here's a cool article",
   receivedGratitude: "Have a great day!",
-  gratitude: "Here's a past piece of gratitude!",
+  gratitude: "Here's a good memory to remember!",
   locationInstruction: {
     text: 'Please share your location.',
     quick_replies: [
@@ -71,7 +71,7 @@ const buildMessage = (message, key) => {
 
 const getResponsesForMessage = ({message, userKey}) => {
   return new Promise((resolve, reject) => {
-    if(message.text === 'hi') {
+    if(message.text === 'hi' || message.text === 'help') {
       resolve([defaultResponses.greetingMessage, defaultResponses.instructions]);
     } else if(message.text === 'random') {
       wiki.getRandomWikiArticleLink()
@@ -83,7 +83,6 @@ const getResponsesForMessage = ({message, userKey}) => {
     } else if (message.text === 'good memory') {
         firebase.returnEntry()
         .then(text => {
-            console.log("In bot/index.js" + text);
             resolve([defaultResponses.gratitude, text]);
         }).catch(() => {
             resolve([defaultResponses.failure])
@@ -110,22 +109,22 @@ const getResponsesForMessage = ({message, userKey}) => {
             }
             
             var initDistance = 0;
-        for (var i = 0; i < responses.length; i++) {
-            var distance = levenshtein.get(message.text, ""+responses[i][0], { useCollator: true});
-            if(minDistance > distance){
-                found=true;
-                stringReturn = responses[i][1];
-                minDistance = distance;
+            for (var i = 0; i < responses.length; i++) {
+                var distance = levenshtein.get(message.text, ""+responses[i][0], { useCollator: true});
+                if(minDistance > distance){
+                    found=true;
+                    stringReturn = responses[i][1];
+                    minDistance = distance;
+                }
             }
-        }
-        if (!found) {
-            resolve([defaultResponses.invalidMessage]);
-        }
-        if(positive){
-            resolve(["I realized that your message is super positive :) I will save into my database. You can type 'good memory' to see one of the saved positive, previous messages. ", stringReturn]);
-        } {
-            resolve([stringReturn]);
-        }
+            if (!found) {
+                resolve([defaultResponses.invalidMessage]);
+            }
+            if(positive){
+                resolve(["I realize that your message is super positive :) I will save this into my database. You can type 'good memory' to be reminded of a positive message from your past! ", stringReturn]);
+            } {
+                resolve([stringReturn]);
+            }
         });
     }
   });
