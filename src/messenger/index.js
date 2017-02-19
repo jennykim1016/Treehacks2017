@@ -70,8 +70,8 @@ let handleMessageEvent = (event) => {
         }
       });
     }
-  }).catch(function () {
-      console.log("Promise Rejected");
+  }).catch(function (error) {
+      console.log("Promise Rejected!" + error);
   });
 };
 
