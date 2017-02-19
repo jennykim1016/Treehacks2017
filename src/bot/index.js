@@ -77,10 +77,20 @@ const getResponsesForMessage = ({message, userKey}) => {
         }).catch(() => {
           resolve([defaultResponses.failure])
         })
-    } else if(responses.hasOwnProperty(message.text)) {
-      resolve([responses[message.text]]);
     } else {
-      resolve([defaultResponses.invalidMessage]);
+        var found = false;
+
+        for (var i = 0; i < responses.length; i++) {
+            if (message.text.match(responses[i][0])) {
+                found = true;
+                resolve([responses[i][1]]);
+                break;
+            }
+        }
+
+        if (!found) {
+            resolve([defaultResponses.invalidMessage]);
+        }
     }
   });
 };

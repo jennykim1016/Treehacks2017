@@ -1,5 +1,5 @@
-export default {
-  'Hello': 'HEY!',
-  "What's your name?": 'JENNY',
-  "Are you a robot?": "NO."
-}
+export default [
+  [/Hello/i, 'HEYYYYYYY!'],
+  [/What's your name\?/i, 'JENNY'],
+  [/Are you a robot\?/i, "NO."]
+]
