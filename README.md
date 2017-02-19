@@ -3,7 +3,7 @@
 ### Overview
 This is a listenerbot that integrates with Facebook Messenger.
 
-[here explanation needed]
+![FacebookDemo](../facebookDemo.png?raw=true "Facebook Demo")
 
 ### What is a ListenerBot?
 
